@@ -1,5 +1,7 @@
 import cv2
 import numpy as np
+import tkinter as tk
+from tkinter import filedialog
 import random
 # -1, cv2.IMREAD_COLOR : Loads a color image. Any transparency of image
 # 0, cv2.IMREAD_GRAYSCALE : Loads image in grayscale mode
@@ -7,10 +9,16 @@ import random
 ddepth = cv2.CV_16S
 kernel_size = 3
 
-img = cv2.imread('./assets/cat.jpg', -1)
+# Choose file to apply the filter
+root = tk.Tk()
+root.withdraw()
+file_path = filedialog.askopenfilename(filetypes=[("Image File", '.jpg .jpeg')])
+print(file_path)
+
+img = cv2.imread(file_path, -1)
 
 if img is None:
-    print ('Error opening image')  
+    print ('Error opening image')
 
 blurredImage = img.copy()
 
@@ -48,7 +56,7 @@ abs_laplacian_color = cv2.merge([abs_laplacian] * 3)
 
 
 horizontal_imgs = np.concatenate((img, blurredImage, abs_laplacian_color), axis=1)
-resized_imgs = cv2.resize(horizontal_imgs, (0, 0), fx=0.8, fy= 0.8)
+resized_imgs = cv2.resize(horizontal_imgs, (0, 0), fx=0.7, fy= 0.7)
 cv2.imshow("Filter tests", resized_imgs)
 # cv2.imshow("Laplace Filtered Image", abs_dst)
 # cv2.imshow('Cat image filtered', filteredImage)
