@@ -15,6 +15,8 @@ root.withdraw()
 file_path = filedialog.askopenfilename(filetypes=[("Image File", '.jpg .jpeg')])
 print(file_path)
 
+# Read image
+
 img = cv2.imread(file_path, -1)
 
 if img is None:
@@ -31,35 +33,12 @@ filteredImageGray = cv2.cvtColor(blurredImage, cv2.COLOR_BGR2GRAY)
 laplacian = cv2.Laplacian(filteredImageGray, ddepth, ksize=kernel_size)
 abs_laplacian = cv2.convertScaleAbs(laplacian)
 
-
-# Loop through the image
-# for i in range(height):
-#     for j in range(width):
-#         if(filteredImage[i][j] < 200):
-#             if (filteredImage[i][j] > 32):
-#                 filteredImage[i][j] -= random.randint(16, 32)
-#             else:
-#                 filteredImage[i][j] += random.randint(16, 32)
-        # else:
-        #     filteredImage[i][j] = random.randint(240, 255)
-
-# head = img[300:600, 300:600]
-# img[0:300, 0:300] = head
-
-# img [5:305, 5:405] = head
-# img = cv2.rotate(img, cv2.ROTATE_90_CLOCKWISE
-
-# print(img)    
-# cv2.imwrite('./assets/new_cat.jpg', img)
-
 abs_laplacian_color = cv2.merge([abs_laplacian] * 3)
 
-
+# Show the images
 horizontal_imgs = np.concatenate((img, blurredImage, abs_laplacian_color), axis=1)
 resized_imgs = cv2.resize(horizontal_imgs, (0, 0), fx=0.7, fy= 0.7)
 cv2.imshow("Filter tests", resized_imgs)
-# cv2.imshow("Laplace Filtered Image", abs_dst)
-# cv2.imshow('Cat image filtered', filteredImage)
-# cv2.imshow('Cat image', img)
+
 cv2.waitKey(0)
 cv2.destroyAllWindows()
